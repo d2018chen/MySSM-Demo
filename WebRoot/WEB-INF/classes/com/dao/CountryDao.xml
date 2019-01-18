@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.CountryDao">
+	<insert id="addCountry" parameterType="com.bean.Country">
+		insert into country(name,language) values(#{name},#{language})
+	</insert>
+	
+	<delete id="deleteCountry" parameterType="int">
+		delete from country where id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="com.bean.Country">
+		update country set name=#{name},language=#{language} where id=#{id}
+	</update>
+	
+	<select id="findById" parameterType="int" resultType="com.bean.Country">
+		select * from country where id=#{id}
+	</select>
+	<select id="findByname" parameterType="com.bean.Country" resultType="com.bean.Country">
+		select * from country
+		<where>
+            <if test="name!=null and name!=''">
+                and name like '%${name}%'
+            </if>
+             <if test="language!=null and language!=''">
+                and language=#{language}
+            </if>
+        </where>
+	</select>
+	<select id="findAll" resultType="com.bean.Country">
+		select * from country
+	</select>
+</mapper>

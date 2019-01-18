@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hqyj.dao.CountryDao">
+	<select id="findAll" resultType="com.hqyj.bean.Country">
+		select * from country
+	</select>
+
+	<delete id="deleteCountry" parameterType="int">
+		delete from country
+		where id=#{id}
+	</delete>
+
+	<insert id="addCountry" parameterType="com.hqyj.bean.Country">
+		insert into
+		country(name,language) values(#{name},#{language})
+	</insert>
+
+	<update id="updateCountry" parameterType="com.hqyj.bean.Country">
+		update country set
+		name=#{name},language=#{language} where id=#{id}
+	</update>
+
+	<select id="findById" parameterType="int" resultType="com.hqyj.bean.Country">
+		select *
+		from country where id=#{id}
+	</select>
+
+	<sql id="countryAndLanguage">
+		<where>
+			<if test="name!=null and name!=''">
+				and name like '%${name}%'
+			</if>
+			<if test="language!=null and language!=''">
+				and language=#{language}
+			</if>
+		</where>
+	</sql>
+	<select id="findCountryAndLanguage" parameterType="com.hqyj.bean.Country" resultType="com.hqyj.bean.Country">
+		select * from country
+		<include refid="countryAndLanguage"></include>
+	</select>
+</mapper>
